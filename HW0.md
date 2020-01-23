@@ -86,10 +86,10 @@ int main() {
    	int count;
 	int i;
 	for (count = n; count; count--) {
-		for (i = n - count + 1; i; i--) {
-			write(1, "*", 1);
-		}
-		write(1, "\n", 1);
+	   for (i = n - count + 1; i; i--) {
+	      write(1, "*", 1);
+	   }
+	   write(1, "\n", 1);
 	}
    }
    ```
