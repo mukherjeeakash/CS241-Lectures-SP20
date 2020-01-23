@@ -83,7 +83,7 @@ int main() {
    
    ```
    void write_triangle(int n) {
-	int count;
+   	int count;
 	int i;
 	for (count = n; count; count--) {
 		for (i = n - count + 1; i; i--) {
