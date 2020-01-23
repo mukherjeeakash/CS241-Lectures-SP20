@@ -82,6 +82,7 @@ int main() {
    ```
    
    	```
+	#include <unistd.h>
    	void write_triangle(int n) {
    		int count;
 		int i;
@@ -96,6 +97,19 @@ int main() {
 ### Writing to files
 3. Take your program from "Hello, World!" modify it write to a file called `hello_world.txt`.
    - Make sure to to use correct flags and a correct mode for `open()` (`man 2 open` is your friend).
+    ```
+	#include <unistd.h>
+	#include <sys/types.h>
+	#include <sys/stat.h>
+	#include <fcntl.h>
+	int main() {
+		mode_t mode = S_IRUSR | S_IWUSR;
+		int file = open("hello_world.txt", O_CREAT | O_TRUNC | O_RDWR, mode);
+		write(file, "Hi! My name is Akash", 20);
+		close(file);
+		return 0;
+	}
+    ```
 ### Not everything is a system call
 4. Take your program from "Writing to files" and replace `write()` with `printf()`.
    - Make sure to print to the file instead of standard out!
