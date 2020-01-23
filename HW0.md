@@ -63,6 +63,14 @@ In which our intrepid hero battles standard out, standard error, file descriptor
 
 ### Hello, World! (system call style)
 1. Write a program that uses `write()` to print out "Hi! My name is `<Your Name>`".
+
+```
+#include <unistd.h>
+int main() {
+   write(1, "Hi! My name is Akash", 20);
+   return 0;
+}
+```
 ### Hello, Standard Error Stream!
 2. Write a function to print out a triangle of height `n` to standard error.
    - Your function should have the signature `void write_triangle(int n)` and should use `write()`.
@@ -71,6 +79,19 @@ In which our intrepid hero battles standard out, standard error, file descriptor
    *
    **
    ***
+   ```
+   
+   ```
+   void write_triangle(int n) {
+	int count;
+	int i;
+	for (count = n; count; count--) {
+		for (i = n - count + 1; i; i--) {
+			write(1, "*", 1);
+		}
+		write(1, "\n", 1);
+	}
+   }
    ```
 ### Writing to files
 3. Take your program from "Hello, World!" modify it write to a file called `hello_world.txt`.
