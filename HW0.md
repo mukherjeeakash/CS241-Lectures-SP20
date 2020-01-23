@@ -113,6 +113,20 @@ int main() {
 ### Not everything is a system call
 4. Take your program from "Writing to files" and replace `write()` with `printf()`.
    - Make sure to print to the file instead of standard out!
+   ```
+	#include <unistd.h>
+	#include <sys/types.h>
+	#include <sys/stat.h>
+	#include <fcntl.h>
+	int main() {
+		mode_t mode = S_IRUSR | S_IWUSR;
+		close(1);
+		int file = open("hello_world.txt", O_CREAT | O_TRUNC | O_RDWR, mode);
+		printf("Hi! My name is Akash");
+		close(file);
+		return 0;
+	}
+    ```
 5. What are some differences between `write()` and `printf()`?
 
 ## Chapter 2
