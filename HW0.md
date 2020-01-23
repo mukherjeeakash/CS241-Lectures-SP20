@@ -118,6 +118,7 @@ int main() {
 	#include <sys/types.h>
 	#include <sys/stat.h>
 	#include <fcntl.h>
+	#include <stdio.h>
 	int main() {
 		mode_t mode = S_IRUSR | S_IWUSR;
 		close(1);
