@@ -81,18 +81,18 @@ int main() {
    ***
    ```
    
-   ```
-   void write_triangle(int n) {
-   	int count;
-	int i;
-	for (count = n; count; count--) {
-	   for (i = n - count + 1; i; i--) {
-	      write(1, "*", 1);
-	   }
-	   write(1, "\n", 1);
+   	```
+   	void write_triangle(int n) {
+   		int count;
+		int i;
+		for (count = n; count; count--) {
+			for (i = n - count + 1; i; i--) {
+				write(1, "*", 1);
+			}
+			write(1, "\n", 1);
+		}
 	}
-   }
-   ```
+	```
 ### Writing to files
 3. Take your program from "Hello, World!" modify it write to a file called `hello_world.txt`.
    - Make sure to to use correct flags and a correct mode for `open()` (`man 2 open` is your friend).
