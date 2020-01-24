@@ -124,11 +124,16 @@ int main() {
 		close(1);
 		int file = open("hello_world.txt", O_CREAT | O_TRUNC | O_RDWR, mode);
 		printf("Hi! My name is Akash");
+		fflush(stdout); // Need to flush or it is blank
 		close(file);
 		return 0;
 	}
     ```
 5. What are some differences between `write()` and `printf()`?
+
+	```
+	write() is much more closer to the machine than printf(). As a result, printf() can format strings nicer and include types such as int, but also printf() needs to be explicitly flushed.
+	```
 
 ## Chapter 2
 
@@ -136,9 +141,22 @@ Sizing up C types and their limits, `int` and `char` arrays, and incrementing po
 
 ### Not all bytes are 8 bits?
 1. How many bits are there in a byte?
+```
+At least 8 bits in C, traditionally 8 bits is one byte.
+```
 2. How many bytes are there in a `char`?
+```
+A 'char' is one byte.
+```
 3. How many bytes the following are on your machine?
    - `int`, `double`, `float`, `long`, and `long long`
+```
+'int' is 4 bytes
+'double' is 8 bytes
+'float' is 4 bytes
+'long' is 4 bytes
+'long long' is 8 bytes
+```
 ### Follow the int pointer
 4. On a machine with 8 byte integers:
 ```C
