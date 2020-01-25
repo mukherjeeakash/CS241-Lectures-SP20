@@ -166,8 +166,15 @@ int main(){
 ```
 If the address of data is `0x7fbd9d40`, then what is the address of `data+2`?
 
+```
+The address of data+2 would be 8 bytes shifted, so it would be '0x7fbd9d48'
+```
+
 5. What is `data[3]` equivalent to in C?
    - Hint: what does C convert `data[3]` to before dereferencing the address?
+```
+*(data+3) is what C converts data[3] to
+```
 
 ### `sizeof` character arrays, incrementing pointers
   
@@ -178,10 +185,27 @@ Remember, the type of a string constant `"abc"` is an array.
 char *ptr = "hello";
 *ptr = 'J';
 ```
+```
+ptr is pointing to a string constant "hello" which is only allowed to be read by the system. As a result, the program segfaults since we are trying to write to the string constant
+```
 7. What does `sizeof("Hello\0World")` return?
+```
+In addition to the 10 letters, there are two null characters so 12 would be what `sizeof("Hello\0World")` returns
+```
 8. What does `strlen("Hello\0World")` return?
+```
+`strlen("Hello\0World")` returns 5 since it stops counting at the first null character
+```
 9. Give an example of X such that `sizeof(X)` is 3.
+```
+char* X = "He";
+```
 10. Give an example of Y such that `sizeof(Y)` might be 4 or 8 depending on the machine.
+```
+The 'long' data type can be variable depending on CHAR_BIT, as on the VM in the video lectures, sizeof returns 4 while on my local machine it is 8. Thus:
+
+long Y = 0;
+```
 
 ## Chapter 3
 
@@ -189,9 +213,25 @@ Program arguments, environment variables, and working with character arrays (str
 
 ### Program arguments, `argc`, `argv`
 1. What are two ways to find the length of `argv`?
+```
+int length = argc; # method 1
+
+int count = 0;
+for (argv; *(argv); argv++) {
+	count ++;
+}
+int length = count; # method 2
+```
+
 2. What does `argv[0]` represent?
+```
+The first value in argv is the program name
+```
 ### Environment Variables
 3. Where are the pointers to environment variables stored (on the stack, the heap, somewhere else)?
+```
+They are stored above the stack so somewhere else.
+```
 ### String searching (strings are just char arrays)
 4. On a machine where pointers are 8 bytes, and with the following code:
 ```C
@@ -199,10 +239,17 @@ char *ptr = "Hello";
 char array[] = "Hello";
 ```
 What are the values of `sizeof(ptr)` and `sizeof(array)`? Why?
+```
+'sizeof(ptr)' will return the size of the actual pointer, so it will return 8.
+`sizeof(array)` will return the size of the character array which in this case is 6 due to the length of the string and the null character at the end
+```
 
 ### Lifetime of automatic variables
 
 5. What data structure manages the lifetime of automatic variables?
+```
+A stack manages the automatic variables' lifetimes
+```
 
 ## Chapter 4
 
@@ -253,7 +300,13 @@ Text input and output and parsing using `getchar`, `gets`, and `getline`.
 These are general tips for compiling and developing using a compiler and git. Some web searches will be useful here
 
 1. What compiler flag is used to generate a debug build?
+```
+-g
+```
 2. You modify the Makefile to generate debug builds and type `make` again. Explain why this is insufficient to generate a new build.
+```
+First, 'make clean' is needed to clear .o files, and then make can be run properly.
+```
 3. Are tabs or spaces used to indent the commands after the rule in a Makefile?
 4. What does `git commit` do? What's a `sha` in the context of git?
 5. What does `git log` show you?
