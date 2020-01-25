@@ -205,6 +205,9 @@ char* X = "He";
 The 'long' data type can be variable depending on CHAR_BIT, as on the VM in the video lectures, sizeof returns 4 while on my local machine it is 8. Thus:
 
 long Y = 0;
+
+Additionally, pointers can be 4 or 8 bytes, so another solution would be:
+int* Y;
 ```
 
 ## Chapter 3
@@ -308,10 +311,25 @@ These are general tips for compiling and developing using a compiler and git. So
 First, 'make clean' is needed to clear .o files, and then make can be run properly.
 ```
 3. Are tabs or spaces used to indent the commands after the rule in a Makefile?
+```
+Tabs
+```
 4. What does `git commit` do? What's a `sha` in the context of git?
+```
+'git commit' commits the change to the local repository which then needs to be pushed to the actual repository. Each commit is stored in a unique ID called the 'sha';
+```
 5. What does `git log` show you?
+```
+
+```
 6. What does `git status` tell you and how would the contents of `.gitignore` change its output?
+```
+
+```
 7. What does `git push` do? Why is it not just sufficient to commit with `git commit -m 'fixed all bugs' `?
+```
+
+```
 8. What does a non-fast-forward error `git push` reject mean? What is the most common way of dealing with this?
 
 ## Optional (Just for fun)
