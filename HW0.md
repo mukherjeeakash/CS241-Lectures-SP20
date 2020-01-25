@@ -260,31 +260,108 @@ Heap and stack memory, and working with structs
 
 ### Memory allocation using `malloc`, the heap, and time
 1. If I want to use data after the lifetime of the function it was created in ends, where should I put it? How do I put it there?
+```
+There are two options. The first is to make the variable static which will tie the memory allocated to the lifetime of the program. More preferable is to use malloc() to allocate the memory needed on the heap and free() after usage.
+```
 2. What are the differences between heap and stack memory?
+```
+Heap memory is dynamic so it can be allocated and freed at any time, but it is slower than stack memory. Stack memory is static, but very fast.
+```
 3. Are there other kinds of memory in a process?
+```
+Yes, there is the text segment and data (initialized and uninitialized) segment.
+```
 4. Fill in the blank: "In a good C program, for every malloc, there is a ___".
+```
+call to free() which frees up the allocated memory
+```
 ### Heap allocation gotchas
 5. What is one reason `malloc` can fail?
+```
+There is not enough memory.
+```
 6. What are some differences between `time()` and `ctime()`?
+```
+time() is the system call while ctime() is the human readable version of time().
+```
 7. What is wrong with this code snippet?
 ```C
 free(ptr);
 free(ptr);
+```
+```
+free() is called a second time on a pointer who's memory has already been deallocated.
 ```
 8. What is wrong with this code snippet?
 ```C
 free(ptr);
 printf("%s\n", ptr);
 ```
+```
+Since free() was called on 'ptr', it doesn't have any allocated memory causing undefined behavior (perhaps segfault).
+```
 9. How can one avoid the previous two mistakes? 
+```
+Make sure to call free() once for every malloc, and set the ptr to NULL after deallocating memory.
+```
 ### `struct`, `typedef`s, and a linked list
 10. Create a `struct` that represents a `Person`. Then make a `typedef`, so that `struct Person` can be replaced with a single word. A person should contain the following information: their name (a string), their age (an integer), and a list of their friends (stored as a pointer to an array of pointers to `Person`s).
+```
+struct Person {
+	char* name;
+	int age;
+	Person* friends[];
+}
+
+typedef struct Person person_t;
+```
 11. Now, make two persons on the heap, "Agent Smith" and "Sonny Moore", who are 128 and 256 years old respectively and are friends with each other.
+```
+# assuming previous snippet valid
+person_t* smith = (person_t*) malloc(sizeof(person_t));
+person_t* moore = (person_t*) malloc(sizeof(person_t));
+smith->name = "Agent Smith";
+smith->age = 128;
+smith->friends = {moore};
+smith->name = "Sonny Moore";
+smith->age = 256;
+smith->friends = {smith};
+
+free(smith);
+free(moore);
+```
 ### Duplicating strings, memory allocation and deallocation of structures
 Create functions to create and destroy a Person (Person's and their names should live on the heap).
 12. `create()` should take a name and age. The name should be copied onto the heap. Use malloc to reserve sufficient memory for everyone having up to ten friends. Be sure initialize all fields (why?).
-13. `destroy()` should free up not only the memory of the person struct, but also free all of its attributes that are stored on the heap. Destroying one person should not destroy any others.
+```
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+struct Person {
+	char* name;
+	int age;
+	Person* friends[10];
+}
 
+typedef struct Person person_t;
+
+person_t* create(char* in_name, int in_age) {
+	person_t* p = (person_t*) malloc(sizeof(person_t));
+	p->name = strdup(in_name);
+	p->age = in_age;
+	p->friends = {NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL};
+	return p;
+}
+```
+13. `destroy()` should free up not only the memory of the person struct, but also free all of its attributes that are stored on the heap. Destroying one person should not destroy any others.
+```
+# assuming previous snippet valid
+void destroy(person_t* p) {
+	free(p->name);
+	memset(p, 0 , sizeof(person_t));
+	free(p);
+}
+```
 ## Chapter 5 
 
 Text input and output and parsing using `getchar`, `gets`, and `getline`.
@@ -316,21 +393,23 @@ Tabs
 ```
 4. What does `git commit` do? What's a `sha` in the context of git?
 ```
-'git commit' commits the change to the local repository which then needs to be pushed to the actual repository. Each commit is stored in a unique ID called the 'sha';
+'git commit' commits the change to the local repository which then needs to be pushed to the actual repository. Each commit is stored in a unique ID called the 'sha'.
 ```
 5. What does `git log` show you?
 ```
-
+It keeps a running record of all commits using the 'sha' values.
 ```
 6. What does `git status` tell you and how would the contents of `.gitignore` change its output?
 ```
-
+'git status' displays all the files that are currently modified but not staged for commit yet. The '.gitignore' file has the files which should be excluded (untracked files).
 ```
 7. What does `git push` do? Why is it not just sufficient to commit with `git commit -m 'fixed all bugs' `?
 ```
-
+'git push' actually sends your changes to the remote git repository, so the changes you made are reflected in that repository.
 ```
 8. What does a non-fast-forward error `git push` reject mean? What is the most common way of dealing with this?
+```
+Usually, the error arises from not being able to push the change to the remote repository without losing commits. An easy way to deal with this is to 'git pull' once to add the commits to the local repository before pushing again.
 
 ## Optional (Just for fun)
 - Convert your a song lyrics into System Programming and C code and share on Piazza.
