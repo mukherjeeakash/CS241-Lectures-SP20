@@ -368,12 +368,45 @@ Text input and output and parsing using `getchar`, `gets`, and `getline`.
 
 ### Reading characters, trouble with gets
 1. What functions can be used for getting characters from `stdin` and writing them to `stdout`?
+```
+gets(), getchar(), getline() to read from stdin
+puts(), putchar() to write to stdout
+```
 2. Name one issue with `gets()`.
+```
+If the input is too large for the bytes specified, it starts overwriting program memory.
+```
 ### Introducing `sscanf` and friends
 3. Write code that parses the string "Hello 5 World" and initializes 3 variables to "Hello", 5, and "World".
+```
+char* pattern = "Hello 5 World";
+char part1[10];
+char part2[10];
+int num;
+sscanf(pattern, "%s %d %s", part1, num, part2);
+```
 ### `getline` is useful
 4. What does one need to define before including `getline()`?
+```
+#define _GNU_SOURCE
+```
 5. Write a C program to print out the content of a file line-by-line using `getline()`.
+```
+#define _GNU_SOURCE
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+int main() {
+	char* buffer;
+	size_t capacity;
+	FILE* file = fopen("file.txt", "r"); # random file
+	while (getline(&buffer, &capacity, file) > 0) {
+		printf("%s\n", buffer);
+	}
+	return EXIT_SUCCESS;
+}
+```
 
 ## C Development
 
